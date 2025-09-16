@@ -1,4 +1,15 @@
-define( 'WP_SITEURL', 'https://CODESPACE_NAME-80.app.github.dev/' );
-define( 'WP_HOME', 'https://CODESPACE_NAME-80.app.github.dev/' );
-define( 'FS_METHOD', 'direct' );
-$_SERVER['HTTPS'] = 'on';
+<?php
+// Codespaces や Docker など「開発環境」だけで有効化
+if ( getenv('CODESPACE_NAME') ) {
+    $codespace = getenv('CODESPACE_NAME');
+
+    // WordPress の URL を Codespaces の動的ドメインに合わせる
+    define( 'WP_SITEURL', "https://{$codespace}-80.app.github.dev/" );
+    define( 'WP_HOME', "https://{$codespace}-80.app.github.dev/" );
+
+    // プラグインやテーマ編集用にファイルシステムメソッドを direct に
+    define( 'FS_METHOD', 'direct' );
+
+    // 強制的に HTTPS として扱う
+    $_SERVER['HTTPS'] = 'on';
+}
